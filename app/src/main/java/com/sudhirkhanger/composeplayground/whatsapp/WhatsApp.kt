@@ -1,4 +1,4 @@
-package com.sudhirkhanger.composeplayground
+package com.sudhirkhanger.composeplayground.whatsapp
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -9,22 +9,16 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.rounded.Face
-import androidx.compose.material.icons.rounded.Favorite
-import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sudhirkhanger.composeplayground.ui.theme.ComposePlaygroundTheme
+import com.sudhirkhanger.composeplayground.ui.theme.wAMessageColor
 
 @Composable
 fun ChatRow(
@@ -53,19 +47,29 @@ fun ChatRow(
                     text = name,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = MaterialTheme.colors.onSurface
                 )
-                Text(text = time, color = Color.DarkGray)
+                Text(text = time, color = wAMessageColor)
             }
             Row(
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                if (isMute)
+                    Icon(
+                        imageVector = Icons.Default.CheckCircle,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(18.dp)
+                    )
                 Text(
                     text = message,
-                    color = Color.DarkGray, maxLines = 1,
+                    color = wAMessageColor,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.weight(1f),
                 )
@@ -88,7 +92,7 @@ fun MessageList() {
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(18) {
+        items(20) {
             ChatRow(
                 name = "John Doe",
                 time = "8:43",
@@ -103,11 +107,7 @@ fun MessageList() {
 @Preview(showBackground = true)
 @Composable
 fun WhatsAppPreview() {
-    ComposePlaygroundTheme {
-        Greeting("Android")
-    }
-    ComposePlaygroundTheme {
-        // A surface container using the 'background' color from the theme
+    WhatsAppTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colors.background
